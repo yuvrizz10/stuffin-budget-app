@@ -4,7 +4,7 @@ import { Toaster } from '@/components/ui/toaster';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'BudgetWise',
+  title: 'Stuffin',
   description: 'A smart budgeting AI app',
 };
 
