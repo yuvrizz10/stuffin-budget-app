@@ -7,7 +7,7 @@ import { useToast } from '@/hooks/use-toast';
 import { formatCurrency } from '@/lib/utils';
 import type { QuickExpenseSetting } from '@/lib/data';
 
-const iconMap = {
+const iconMap: { [key: string]: React.ReactNode } = {
   Coffee: <Coffee className="mr-2 h-4 w-4" />,
   Utensils: <Utensils className="mr-2 h-4 w-4" />,
   Bus: <Bus className="mr-2 h-4 w-4" />,
