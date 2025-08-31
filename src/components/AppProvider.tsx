@@ -100,7 +100,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
       const updatedBudgets = budgets.map(b => ({
         ...b,
-        amount: suggestions[b.category] || b.amount,
+        amount: suggestions[b.category] !== undefined ? suggestions[b.category] : b.amount,
       }));
       setBudgets(updatedBudgets);
 
