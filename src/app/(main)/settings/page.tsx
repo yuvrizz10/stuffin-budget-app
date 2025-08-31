@@ -91,7 +91,7 @@ export default function SettingsPage() {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>Amount</FormLabel>
-                                                <FormControl><Input type="number" placeholder="₹0.00" {...field} /></FormControl>
+                                                <FormControl><Input type="number" placeholder="₹0" {...field} /></FormControl>
                                                 <FormMessage />
                                             </FormItem>
                                         )}

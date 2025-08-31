@@ -51,19 +51,19 @@ export default function DashboardPage() {
   const aiAnalysisDependencies = useMemo(() => {
     const income = stats.income;
     const expenses = transactions.filter(t => t.type === 'expense').map(({ category, amount, date}) => ({category, amount, date}));
-    return { income, expenses, budgets };
+    return JSON.stringify({ income, expenses, budgets });
   }, [transactions, budgets, stats.income]);
   
   useEffect(() => {
     const fetchAiSummary = async () => {
         setIsAiSummaryLoading(true);
         try {
-            const { income, expenses, budgets } = aiAnalysisDependencies;
-            if (expenses.length === 0 && budgets.length === 0) {
+            const parsedDependencies = JSON.parse(aiAnalysisDependencies);
+            if (parsedDependencies.expenses.length === 0 && parsedDependencies.budgets.length === 0) {
               setAiSummary("Not enough data for analysis. Add some expenses and budgets first.");
               return;
             }
-            const result = await visualizeSpendingAnalysis({ income, expenses, budgets });
+            const result = await visualizeSpendingAnalysis(parsedDependencies);
             setAiSummary(result.summary);
         } catch (e) {
             console.error(e);
