@@ -18,6 +18,7 @@ interface AppContextType {
   setBillPaid: (id: string, paid: boolean) => void;
   getAiBudgetSuggestions: () => Promise<void>;
   isGeneratingSuggestions: boolean;
+  setQuickExpenses: (expenses: QuickExpenseSetting[]) => void;
 }
 
 export const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -106,6 +107,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setBillPaid,
     getAiBudgetSuggestions,
     isGeneratingSuggestions,
+    setQuickExpenses,
   }), [transactions, budgets, bills, quickExpenses, isGeneratingSuggestions]);
 
   return <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>;

@@ -30,6 +30,7 @@ const navItems = [
   { href: '/budgets', icon: Target, label: 'Budgets' },
   { href: '/bills', icon: Bell, label: 'Bills' },
   { href: '/reports', icon: FileText, label: 'Reports' },
+  { href: '/settings', icon: Settings, label: 'Settings' },
 ];
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
@@ -44,7 +45,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             href={href}
             className={cn(
               'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary',
-              { 'bg-muted text-primary': pathname === href }
+              { 'bg-muted text-primary': pathname.startsWith(href) }
             )}
           >
             <Icon className="h-4 w-4" />
@@ -52,15 +53,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           </Link>
         ))}
       </nav>
-      <div className="mt-auto p-4">
-        <Link
-          href="#"
-          className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-        >
-          <Settings className="h-4 w-4" />
-          Settings
-        </Link>
-      </div>
     </>
   );
 
@@ -99,7 +91,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             </Sheet>
             <div className="w-full flex-1">
               <h1 className="text-lg font-semibold">
-                {navItems.find(item => item.href === pathname)?.label || 'Dashboard'}
+                {navItems.find(item => pathname.startsWith(item.href))?.label || 'Dashboard'}
               </h1>
             </div>
             <AddTransactionSheet />
