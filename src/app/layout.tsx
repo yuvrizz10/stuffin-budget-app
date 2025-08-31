@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { AppProvider } from '@/components/AppProvider';
-import { AuthProvider } from '@/components/AuthProvider';
 import { Toaster } from '@/components/ui/toaster';
 import './globals.css';
 
@@ -25,12 +24,10 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased">
-        <AuthProvider>
-          <AppProvider>
-            {children}
-            <Toaster />
-          </AppProvider>
-        </AuthProvider>
+        <AppProvider>
+          {children}
+          <Toaster />
+        </AppProvider>
       </body>
     </html>
   );

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import {
   Bell,
   FileText,
@@ -10,7 +10,6 @@ import {
   ArrowRightLeft,
   Target,
 } from 'lucide-react';
-import { useAuth } from '@/hooks/use-auth';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -20,10 +19,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { UserNav } from '@/components/UserNav';
 import { Logo } from '@/components/Logo';
 import { AddTransactionSheet } from '@/components/AddTransactionSheet';
 import React from 'react';
+import { UserNav } from '@/components/UserNav';
 
 const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -36,18 +35,6 @@ const navItems = [
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const router = useRouter();
-  const { user, loading } = useAuth();
-  
-  React.useEffect(() => {
-    if (!loading && !user) {
-      router.push('/login');
-    }
-  }, [user, loading, router]);
-
-  if (loading || !user) {
-    return <div className="flex h-screen items-center justify-center">Loading...</div>;
-  }
 
   const NavContent = () => (
     <>
