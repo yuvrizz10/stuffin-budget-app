@@ -59,8 +59,8 @@ export default function DashboardPage() {
         setIsAiSummaryLoading(true);
         try {
             const parsedDependencies = JSON.parse(aiAnalysisDependencies);
-            if (parsedDependencies.expenses.length === 0 || parsedDependencies.budgets.length === 0) {
-              setAiSummary("Not enough data for analysis. Add some expenses and budgets first.");
+            if (parsedDependencies.expenses.length === 0) {
+              setAiSummary("Add some expense transactions to see an AI-powered analysis of your spending.");
               return;
             }
             const result = await visualizeSpendingAnalysis(parsedDependencies);
