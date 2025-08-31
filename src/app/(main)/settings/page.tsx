@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Trash2, PlusCircle, AlertTriangle, RotateCw } from 'lucide-react';
-import { spendingCategories } from '@/lib/data';
+import { spendingCategories, initialQuickExpenses } from '@/lib/data';
 import { useToast } from '@/hooks/use-toast';
 import type { QuickExpenseSetting } from '@/lib/data';
 import {
@@ -74,6 +74,7 @@ export default function SettingsPage() {
   
   const handleReset = () => {
     resetData();
+    form.reset({ quickExpenses: initialQuickExpenses }); // Reset form state
     toast({
         title: "Application Reset",
         description: "All your data has been reset to the initial state.",
