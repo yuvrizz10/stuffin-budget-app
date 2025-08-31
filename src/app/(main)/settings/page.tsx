@@ -1,6 +1,7 @@
 
 'use client';
 
+import * as React from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -10,10 +11,21 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Trash2, PlusCircle } from 'lucide-react';
+import { Trash2, PlusCircle, AlertTriangle } from 'lucide-react';
 import { spendingCategories } from '@/lib/data';
 import { useToast } from '@/hooks/use-toast';
 import type { QuickExpenseSetting } from '@/lib/data';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 const quickExpenseSchema = z.object({
     id: z.string(),
@@ -30,7 +42,7 @@ const settingsSchema = z.object({
 type SettingsFormValues = z.infer<typeof settingsSchema>;
 
 export default function SettingsPage() {
-  const { quickExpenses, setQuickExpenses } = useAppData();
+  const { quickExpenses, setQuickExpenses, resetData } = useAppData();
   const { toast } = useToast();
 
   const form = useForm<SettingsFormValues>({
@@ -38,9 +50,12 @@ export default function SettingsPage() {
     defaultValues: {
       quickExpenses: quickExpenses,
     },
+    values: { // Use values to ensure form re-renders when context data changes
+      quickExpenses: quickExpenses,
+    }
   });
 
-  const { fields, append, remove, update } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: 'quickExpenses',
   });
@@ -56,6 +71,14 @@ export default function SettingsPage() {
   const addQuickExpenseField = () => {
     append({ id: crypto.randomUUID(), name: '', amount: 0, category: 'Groceries', icon: 'Coffee' });
   };
+  
+  const handleReset = () => {
+    resetData();
+    toast({
+        title: "Application Reset",
+        description: "All your data has been reset to the initial state.",
+    });
+  }
 
   return (
     <div className="space-y-6">
@@ -132,6 +155,37 @@ export default function SettingsPage() {
                         </div>
                     </form>
                 </Form>
+            </CardContent>
+        </Card>
+        
+        <Card className="border-destructive">
+            <CardHeader>
+                <CardTitle>Reset Data</CardTitle>
+                <CardDescription>This will permanently delete all your transactions, budgets, and bills, and restore the application to its initial state.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                 <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                        <Button variant="destructive">
+                            <AlertTriangle className="mr-2 h-4 w-4" />
+                            Reset Application Data
+                        </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                This action cannot be undone. This will permanently delete all your application data and restore it to the default settings.
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={handleReset} className="bg-destructive hover:bg-destructive/90">
+                                Yes, reset my data
+                            </AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
             </CardContent>
         </Card>
     </div>
