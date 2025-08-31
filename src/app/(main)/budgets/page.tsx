@@ -55,7 +55,7 @@ export default function BudgetsPage() {
             <CardContent className="space-y-4">
               <Progress value={budget.progress} className={budget.progress > 90 ? '[&>div]:bg-destructive' : ''} />
               <div className="flex items-center space-x-2">
-                <span className="text-sm font-medium">$</span>
+                <span className="text-sm font-medium">₹</span>
                 <Input
                   type="number"
                   defaultValue={budget.amount}
