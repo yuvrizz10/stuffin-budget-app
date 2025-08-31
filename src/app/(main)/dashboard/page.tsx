@@ -47,13 +47,22 @@ export default function DashboardPage() {
   const recentTransactions = useMemo(() => {
     return [...transactions].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 5);
   }, [transactions]);
+
+  const aiAnalysisDependencies = useMemo(() => {
+    const income = stats.income;
+    const expenses = transactions.filter(t => t.type === 'expense').map(({ category, amount, date}) => ({category, amount, date}));
+    return { income, expenses, budgets };
+  }, [transactions, budgets, stats.income]);
   
   useEffect(() => {
     const fetchAiSummary = async () => {
         setIsAiSummaryLoading(true);
         try {
-            const income = stats.income;
-            const expenses = transactions.filter(t => t.type === 'expense').map(({ category, amount, date}) => ({category, amount, date}));
+            const { income, expenses, budgets } = aiAnalysisDependencies;
+            if (expenses.length === 0 && budgets.length === 0) {
+              setAiSummary("Not enough data for analysis. Add some expenses and budgets first.");
+              return;
+            }
             const result = await visualizeSpendingAnalysis({ income, expenses, budgets });
             setAiSummary(result.summary);
         } catch (e) {
@@ -64,7 +73,7 @@ export default function DashboardPage() {
         }
     }
     fetchAiSummary();
-  }, [transactions, budgets, stats.income]);
+  }, [aiAnalysisDependencies]);
 
 
   return (
