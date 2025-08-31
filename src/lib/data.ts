@@ -20,6 +20,14 @@ export type Bill = {
   paid: boolean;
 };
 
+export type QuickExpenseSetting = {
+  id: string;
+  name: string;
+  amount: number;
+  category: string;
+  icon: 'Coffee' | 'Utensils' | 'Bus';
+};
+
 export const initialTransactions: Transaction[] = [
   { id: '1', type: 'income', category: 'Salary', amount: 4500, date: new Date(new Date().setDate(1)).toISOString(), description: 'Monthly Salary' },
   { id: '2', type: 'expense', category: 'Groceries', amount: 350, date: new Date(new Date().setDate(2)).toISOString(), description: 'Weekly grocery shopping' },
@@ -45,6 +53,12 @@ export const initialBills: Bill[] = [
     { id: 'b2', name: 'Gym Membership', amount: 40, dueDate: new Date(new Date().setDate(25)).toISOString(), paid: false },
     { id: 'b3', name: 'Internet Bill', amount: 60, dueDate: new Date(new Date().setDate(28)).toISOString(), paid: true },
 ];
+
+export const initialQuickExpenses: QuickExpenseSetting[] = [
+  { id: 'qe1', name: 'Coffee', amount: 4.50, category: 'Groceries', icon: 'Coffee' },
+  { id: 'qe2', name: 'Lunch', amount: 12.00, category: 'Groceries', icon: 'Utensils' },
+  { id: 'qe3', name: 'Bus Fare', amount: 2.75, category: 'Transport', icon: 'Bus' },
+]
 
 export const spendingCategories = [
     'Groceries', 'Rent', 'Transport', 'Entertainment', 'Utilities', 'Healthcare', 'Education', 'Shopping', 'Other'

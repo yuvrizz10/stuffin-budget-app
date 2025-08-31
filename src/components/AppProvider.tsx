@@ -2,8 +2,8 @@
 
 import type { ReactNode } from 'react';
 import React, { createContext, useState, useMemo } from 'react';
-import type { Transaction, Budget, Bill } from '@/lib/data';
-import { initialTransactions, initialBudgets, initialBills } from '@/lib/data';
+import type { Transaction, Budget, Bill, QuickExpenseSetting } from '@/lib/data';
+import { initialTransactions, initialBudgets, initialBills, initialQuickExpenses } from '@/lib/data';
 import { getBudgetSuggestions } from '@/ai/flows/ai-driven-budget-suggestions';
 import { useToast } from '@/hooks/use-toast';
 
@@ -11,6 +11,7 @@ interface AppContextType {
   transactions: Transaction[];
   budgets: Budget[];
   bills: Bill[];
+  quickExpenses: QuickExpenseSetting[];
   addTransaction: (transaction: Omit<Transaction, 'id'>) => void;
   updateBudget: (category: string, amount: number) => void;
   addBill: (bill: Omit<Bill, 'id' | 'paid'>) => void;
@@ -25,6 +26,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [transactions, setTransactions] = useState<Transaction[]>(initialTransactions);
   const [budgets, setBudgets] = useState<Budget[]>(initialBudgets);
   const [bills, setBills] = useState<Bill[]>(initialBills);
+  const [quickExpenses, setQuickExpenses] = useState<QuickExpenseSetting[]>(initialQuickExpenses);
   const [isGeneratingSuggestions, setIsGeneratingSuggestions] = useState(false);
   const { toast } = useToast();
 
@@ -97,13 +99,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
     transactions,
     budgets,
     bills,
+    quickExpenses,
     addTransaction,
     updateBudget,
     addBill,
     setBillPaid,
     getAiBudgetSuggestions,
     isGeneratingSuggestions,
-  }), [transactions, budgets, bills, isGeneratingSuggestions]);
+  }), [transactions, budgets, bills, quickExpenses, isGeneratingSuggestions]);
 
   return <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>;
 }

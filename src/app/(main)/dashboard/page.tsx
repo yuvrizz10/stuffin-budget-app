@@ -7,10 +7,10 @@ import { Badge } from '@/components/ui/badge';
 import { useAppData } from '@/hooks/use-app-data';
 import { formatCurrency } from '@/lib/utils';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from 'recharts';
-import { TrendingUp, TrendingDown, Wallet, Bot } from 'lucide-react';
+import { TrendingUp, TrendingDown, Wallet, Bot, Zap } from 'lucide-react';
 import { visualizeSpendingAnalysis } from '@/ai/flows/spending-analysis-visualization';
 import { Skeleton } from '@/components/ui/skeleton';
-import { QuickExpenseCard } from '@/components/QuickExpenseCard';
+import { QuickExpenseLogger } from '@/components/QuickExpenseLogger';
 
 export default function DashboardPage() {
   const { transactions, budgets } = useAppData();
@@ -97,7 +97,15 @@ export default function DashboardPage() {
             <div className="text-2xl font-bold">{formatCurrency(stats.balance)}</div>
           </CardContent>
         </Card>
-        <QuickExpenseCard />
+        <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Quick Expenses</CardTitle>
+                <Zap className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+                <QuickExpenseLogger />
+            </CardContent>
+        </Card>
       </div>
       
       <div className="grid gap-4 xl:col-span-3 md:grid-cols-2 lg:grid-cols-3">
