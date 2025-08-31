@@ -45,17 +45,26 @@ const spendingAnalysisPrompt = ai.definePrompt({
   name: 'spendingAnalysisPrompt',
   input: {schema: VisualizeSpendingAnalysisInputSchema},
   output: {schema: VisualizeSpendingAnalysisOutputSchema},
-  prompt: `You are an AI assistant that analyzes user spending habits and provides insights.
+  prompt: `You are a financial advisor AI. Your goal is to provide a concise and helpful summary of the user's spending habits.
+Analyze the provided income, expenses, and budget data.
 
-  Analyze the following financial data and provide a summary of the user's spending habits.
-  Also, provide data that can be used to visualize the spending patterns.
+- Identify the top spending categories.
+- Compare spending against the budget for key categories.
+- Offer one or two actionable insights or suggestions for improvement.
+- Keep the summary to 2-3 sentences.
 
-  Income: {{{income}}}
-  Expenses: {{#each expenses}}- Category: {{{category}}}, Amount: {{{amount}}}, Date: {{{date}}}\n{{/each}}
-  Budgets: {{#each budgets}}- Category: {{{category}}}, Amount: {{{amount}}}\n{{/each}}
+Income: {{{income}}}
+Expenses:
+{{#each expenses}}
+- Category: {{{category}}}, Amount: {{{amount}}}, Date: {{{date}}}
+{{/each}}
 
-  Summary:
-  Visualization Data:`, // TODO: decide the exact structure for passing data to frontend.
+Budgets:
+{{#each budgets}}
+- Category: {{{category}}}, Budget: {{{amount}}}
+{{/each}}
+
+Based on this, generate a 'summary' and placeholder 'visualizationData'.`,
 });
 
 const visualizeSpendingAnalysisFlow = ai.defineFlow(
