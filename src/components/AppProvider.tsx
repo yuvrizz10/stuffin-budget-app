@@ -73,19 +73,28 @@ export function AppProvider({ children }: { children: ReactNode }) {
         .filter(t => t.type === 'income')
         .reduce((acc, t) => acc + t.amount, 0);
 
-      const spendingHabits = budgets.reduce((acc, budget) => {
-        const spent = transactions
-          .filter(t => t.type === 'expense' && t.category === budget.category)
-          .reduce((sum, t) => sum + t.amount, 0);
-        acc[budget.category] = spent;
-        return acc;
-      }, {} as Record<string, number>);
-
+      const spendingHabits = transactions
+        .filter(t => t.type === 'expense')
+        .reduce((acc, t) => {
+          if (!acc[t.category]) {
+            acc[t.category] = 0;
+          }
+          acc[t.category] += t.amount;
+          return acc;
+        }, {} as Record<string, number>);
+        
       const totalBudget = budgets.reduce((acc, b) => acc + b.amount, 0);
+
+      // Ensure all budget categories are present in spending habits, even if they have 0 spending
+      budgets.forEach(b => {
+          if (!spendingHabits[b.category]) {
+              spendingHabits[b.category] = 0;
+          }
+      });
 
       const suggestions = await getBudgetSuggestions({
         income: totalIncome,
-        totalBudget: totalBudget,
+        totalBudget: totalBudget > 0 ? totalBudget : totalIncome * 0.8, // Provide a default budget if none is set
         spendingHabits,
       });
 
