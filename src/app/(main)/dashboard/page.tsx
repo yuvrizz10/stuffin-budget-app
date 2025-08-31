@@ -7,9 +7,10 @@ import { Badge } from '@/components/ui/badge';
 import { useAppData } from '@/hooks/use-app-data';
 import { formatCurrency } from '@/lib/utils';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from 'recharts';
-import { Lightbulb, TrendingUp, TrendingDown, Wallet, Bot } from 'lucide-react';
+import { TrendingUp, TrendingDown, Wallet, Bot } from 'lucide-react';
 import { visualizeSpendingAnalysis } from '@/ai/flows/spending-analysis-visualization';
 import { Skeleton } from '@/components/ui/skeleton';
+import { QuickExpenseCard } from '@/components/QuickExpenseCard';
 
 export default function DashboardPage() {
   const { transactions, budgets } = useAppData();
@@ -68,7 +69,7 @@ export default function DashboardPage() {
 
   return (
     <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
-      <div className="grid gap-4 md:grid-cols-3 xl:col-span-3">
+      <div className="grid gap-4 md:grid-cols-2 xl:col-span-3 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Income</CardTitle>
@@ -96,6 +97,7 @@ export default function DashboardPage() {
             <div className="text-2xl font-bold">{formatCurrency(stats.balance)}</div>
           </CardContent>
         </Card>
+        <QuickExpenseCard />
       </div>
       
       <div className="grid gap-4 xl:col-span-3 md:grid-cols-2 lg:grid-cols-3">
