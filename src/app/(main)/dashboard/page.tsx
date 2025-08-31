@@ -59,7 +59,7 @@ export default function DashboardPage() {
         setIsAiSummaryLoading(true);
         try {
             const parsedDependencies = JSON.parse(aiAnalysisDependencies);
-            if (parsedDependencies.expenses.length === 0 && parsedDependencies.budgets.length === 0) {
+            if (parsedDependencies.expenses.length === 0 || parsedDependencies.budgets.length === 0) {
               setAiSummary("Not enough data for analysis. Add some expenses and budgets first.");
               return;
             }
@@ -73,6 +73,7 @@ export default function DashboardPage() {
         }
     }
     fetchAiSummary();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [aiAnalysisDependencies]);
 
 

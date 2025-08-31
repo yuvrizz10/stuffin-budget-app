@@ -64,7 +64,7 @@ Budgets:
 - Category: {{{category}}}, Budget: {{{amount}}}
 {{/each}}
 
-Based on this, generate a 'summary' and placeholder 'visualizationData'.`,
+Based on this, generate a 'summary' and placeholder 'visualizationData'. The summary should be a helpful and insightful analysis of the user's spending habits.`,
 });
 
 const visualizeSpendingAnalysisFlow = ai.defineFlow(
