@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Trash2, PlusCircle, AlertTriangle } from 'lucide-react';
+import { Trash2, PlusCircle, AlertTriangle, RotateCw } from 'lucide-react';
 import { spendingCategories } from '@/lib/data';
 import { useToast } from '@/hooks/use-toast';
 import type { QuickExpenseSetting } from '@/lib/data';
@@ -42,7 +42,7 @@ const settingsSchema = z.object({
 type SettingsFormValues = z.infer<typeof settingsSchema>;
 
 export default function SettingsPage() {
-  const { quickExpenses, setQuickExpenses, resetData } = useAppData();
+  const { quickExpenses, setQuickExpenses, resetData, resetBudgets } = useAppData();
   const { toast } = useToast();
 
   const form = useForm<SettingsFormValues>({
@@ -157,10 +157,41 @@ export default function SettingsPage() {
                 </Form>
             </CardContent>
         </Card>
+
+        <Card>
+            <CardHeader>
+                <CardTitle>Reset Budgets</CardTitle>
+                <CardDescription>This will set all of your budget amounts to zero, without affecting your transaction history. This is useful for starting a new month.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                 <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                        <Button variant="outline">
+                            <RotateCw className="mr-2 h-4 w-4" />
+                            Reset All Budgets to Zero
+                        </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                This action will set the amount for all your budget categories to ₹0. Your transaction data will not be affected. This cannot be undone.
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={resetBudgets}>
+                                Yes, reset budgets
+                            </AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+            </CardContent>
+        </Card>
         
         <Card className="border-destructive">
             <CardHeader>
-                <CardTitle>Reset Data</CardTitle>
+                <CardTitle>Reset Application Data</CardTitle>
                 <CardDescription>This will permanently delete all your transactions, budgets, and bills, and restore the application to its initial state.</CardDescription>
             </CardHeader>
             <CardContent>

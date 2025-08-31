@@ -20,6 +20,7 @@ interface AppContextType {
   isGeneratingSuggestions: boolean;
   setQuickExpenses: (expenses: QuickExpenseSetting[]) => void;
   resetData: () => void;
+  resetBudgets: () => void;
 }
 
 export const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -55,6 +56,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setBudgets(initialBudgets);
     setBills(initialBills);
     setQuickExpenses(initialQuickExpenses);
+  };
+  
+  const resetBudgets = () => {
+    setBudgets(prev => prev.map(b => ({ ...b, amount: 0 })));
+    toast({
+        title: "Budgets Reset",
+        description: "All your budget amounts have been set to zero.",
+    });
   };
 
   const getAiBudgetSuggestions = async () => {
@@ -117,6 +126,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     isGeneratingSuggestions,
     setQuickExpenses,
     resetData,
+    resetBudgets,
   }), [transactions, budgets, bills, quickExpenses, isGeneratingSuggestions]);
 
   return <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>;
